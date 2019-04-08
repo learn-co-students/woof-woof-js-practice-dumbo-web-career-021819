@@ -4,7 +4,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
 fetch('http://localhost:3000/pups').then((res) => {
 	return res.json()
 }).then((dogObj) => {
-  
+
 
 dogObj.forEach((object) => {
 let dogDisplayTag = document.querySelector('#dog-bar')
@@ -76,8 +76,70 @@ dogInfoDiv.addEventListener('click', (event)=> {
 	}
 })
 
+//BONUS -------------------------------------------BONUS
+  let dogFilterBtn = document.querySelector('#good-dog-filter')
+
+  dogFilterBtn.addEventListener('click',(event) => {
+  	
+  	while (!!document.querySelector('span') == true) {
+  		document.querySelector('span').remove()
+  	}
+   
+  	if (event.target.textContent.endsWith("OFF")) {
+
+  		fetch('http://localhost:3000/pups')
+  		.then((res) => {
+	     return res.json()
+                        })
+  		.then((dogObj) => {
+
+         dogObj.forEach((object) => {
+         	       if (!object.isGoodDog){
+         	       
+         	       document.querySelector('#dog-bar').innerHTML += `<span class="allSpan"; data-id="${object.id}">${object.name}</span>` 
+         	       }
+
+  	                                 })
+                          })
+  		
+  		event.target.innerText = "Filter good dogs: ON"
+  		}
+
+  	else if (event.target.textContent.endsWith("ON")){
+  		  		fetch('http://localhost:3000/pups')
+  		.then((res) => {
+	     return res.json()
+                        })
+  		.then((dogObj) => {
+
+         dogObj.forEach((object) => {
+         	       if (object.isGoodDog){
+         	       
+         	       document.querySelector('#dog-bar').innerHTML += `<span class="allSpan"; data-id="${object.id}">${object.name}</span>` 
+         	       }
+
+  	                                 })
+                          })
+  		
+  		event.target.innerText = "Filter good dogs: OFF"
+  		
+  	}
+
+
+
+})
+
+
     console.log('DOM fully loaded and parsed');
 
 });
+
+
+
+
+
+
+
+
 
 
